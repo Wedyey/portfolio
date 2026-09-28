@@ -56,6 +56,10 @@ html{
 .light-mode .navbar{
     background-color: rgb(0, 67, 176);
 }
+
+.light-mode .contact-detail a{
+    color: black !important;
+}
 /* ===================================== */
 
 /* ============================== NAVBAR ============================== */

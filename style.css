@@ -225,10 +225,6 @@ html{
     text-shadow: -3px 3px 3px rgb(3, 19, 44);
 }
 
-.page-header h1 span{
-    color: rgb(0, 203, 249);
-    text-shadow: 2px 2px 3px black;
-}
 
 .page-header p{
     font-size: 18px;

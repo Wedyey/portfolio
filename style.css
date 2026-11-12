@@ -44,6 +44,10 @@ html{
     background-image: url(img/Light.jpg);
 }
 
+.light-mode .about-text h2{
+    color: rgb(0, 44, 155);
+}
+
 
 /*======== Light Mode Attributes ====== */
 

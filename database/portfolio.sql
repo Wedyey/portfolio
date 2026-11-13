@@ -1,4 +1,10 @@
-CREATE TABLE admins (
+CREATE DATABASE IF NOT EXISTS portfolio
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE portfolio;
+
+CREATE TABLE IF NOT EXISTS admins (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     email VARCHAR(254) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -7,7 +13,7 @@ CREATE TABLE admins (
     UNIQUE KEY admins_email_unique (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE profile (
+CREATE TABLE IF NOT EXISTS profile (
     id TINYINT UNSIGNED NOT NULL,
     name VARCHAR(150) NOT NULL,
     headline VARCHAR(200) NOT NULL DEFAULT '',
@@ -22,7 +28,7 @@ CREATE TABLE profile (
     CONSTRAINT profile_singleton CHECK (id = 1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE skills (
+CREATE TABLE IF NOT EXISTS skills (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     category VARCHAR(100) NOT NULL DEFAULT '',
@@ -34,7 +40,7 @@ CREATE TABLE skills (
     KEY skills_sort_order_index (sort_order, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE projects (
+CREATE TABLE IF NOT EXISTS projects (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
@@ -50,7 +56,7 @@ CREATE TABLE projects (
     KEY projects_sort_order_index (sort_order, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE education (
+CREATE TABLE IF NOT EXISTS education (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     institution VARCHAR(200) NOT NULL,
     qualification VARCHAR(200) NOT NULL,
@@ -63,7 +69,7 @@ CREATE TABLE education (
     KEY education_sort_order_index (sort_order, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE experience (
+CREATE TABLE IF NOT EXISTS experience (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     organization VARCHAR(200) NOT NULL,
     role VARCHAR(200) NOT NULL,
@@ -75,7 +81,7 @@ CREATE TABLE experience (
     KEY experience_sort_order_index (sort_order, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE achievements (
+CREATE TABLE IF NOT EXISTS achievements (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(200) NOT NULL,
     issuer VARCHAR(200) NOT NULL DEFAULT '',
@@ -87,14 +93,14 @@ CREATE TABLE achievements (
     KEY achievements_sort_order_index (sort_order, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE settings (
+CREATE TABLE IF NOT EXISTS settings (
     setting_key VARCHAR(100) NOT NULL,
     setting_value TEXT NOT NULL,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (setting_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(150) NOT NULL,
     email VARCHAR(254) NOT NULL,

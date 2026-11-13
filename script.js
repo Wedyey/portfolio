@@ -11,6 +11,16 @@ if(menuBtn && navMenu){
 
     });
 
+    navMenu.querySelectorAll("a").forEach(function(link){
+
+        link.addEventListener("click", function(){
+
+            navMenu.classList.remove("show-menu");
+
+        });
+
+    });
+
 }
 
 
@@ -20,19 +30,16 @@ const themeMode = document.getElementById("theme-mode");
 
 if(themeMode){
 
+    themeMode.setAttribute("type", "button");
+    themeMode.setAttribute("aria-label", "Toggle theme");
+
     themeMode.addEventListener("click", function(){
 
         document.body.classList.toggle("light-mode");
 
-        if(document.body.classList.contains("light-mode")){
+        const isLightMode = document.body.classList.contains("light-mode");
 
-            localStorage.setItem("theme", "light");
-
-        }else{
-
-            localStorage.setItem("theme", "dark");
-
-        }
+        localStorage.setItem("theme", isLightMode ? "light" : "dark");
 
     });
 
@@ -50,19 +57,26 @@ if(savedTheme === "light"){
 }
 
 
-// ============================== ACTIVE NAVIGATION ==============================
+// ============================== ACTIVE NAVIGATION ============================== 
 
-const currentPage = window.location.pathname.split("/").pop();
+const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
 const navLinks = document.querySelectorAll(".navbar a");
 
 navLinks.forEach(function(link){
 
-    const linkPage = link.getAttribute("href");
+    const linkPage = link.getAttribute("href") || "index.html";
+    const parentItem = link.parentElement;
 
     if(linkPage === currentPage){
 
-        link.parentElement.classList.add("active");
+        parentItem.classList.add("active");
+        link.classList.add("active");
+
+    }else{
+
+        parentItem.classList.remove("active");
+        link.classList.remove("active");
 
     }
 

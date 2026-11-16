@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Roejie Damaso about projects, collaboration, or opportunities.">
+    <meta name="theme-color" content="#071426">
     <title>Contact | Roejie Damaso</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,18 +18,18 @@
             <p>Roejie <span style="color: rgb(79, 202, 255);">Damaso</span></p>
         </div>
 
-        <button class="menu-btn" id="menu-btn">☰</button>
+        <button class="menu-btn" id="menu-btn" type="button" aria-label="Open navigation menu" aria-controls="nav-menu" aria-expanded="false">☰</button>
 
-        <ul id="nav-menu">
+        <ul id="nav-menu" aria-label="Main navigation">
 
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="skills.html">Skills</a></li>
             <li><a href="projects.html">Projects</a></li>
             <li><a href="resume.html">Resume</a></li>
-            <li class="active"><a href="contact.html">Contact</a></li>
+            <li class="active"><a href="contact.html" aria-current="page">Contact</a></li>
 
-            <li><button id="theme-mode">
+            <li><button id="theme-mode" type="button" aria-label="Toggle color theme" aria-pressed="false">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M380-160q133 0 226.5-93.5T700-480q0-133-93.5-226.5T380-800h-21q-10 0-19 2 57 66 88.5 147.5T460-480q0 89-31.5 170.5T340-162q9 2 19 2h21Zm0 80q-53 0-103.5-13.5T180-134q93-54 146.5-146T380-480q0-108-53.5-200T180-826q46-27 96.5-40.5T380-880q83 0 156 31.5T663-763q54 54 85.5 127T780-480q0 83-31.5 156T663-197q-54 54-127 85.5T380-80Zm80-400Z"/></svg>
                 
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm113-170q-70-70-70-170t70-170q70-70 170-70t170 70q70 70 70 170t-70 170q-70 70-170 70t-170-70Zm283-57q47-47 47-113t-47-113q-47-47-113-47t-113 47q-47 47-47 113t47 113q47 47 113 47t113-47ZM480-480Z"/></svg>
@@ -69,12 +71,12 @@
 
                 <div class="contact-detail">
                     <strong>Email</strong>
-                    <p>roejieadamso@gmail.com</p>
+                    <p><a href="mailto:roejieadamso@gmail.com">roejieadamso@gmail.com</a></p>
                 </div>
 
                 <div class="contact-detail">
                     <strong>Facebook</strong>
-                    <p><a href="https://www.facebook.com/Roejie.Hangca.Damaso" target="_blank" style="color: white; text-decoration: none;">https://www.facebook.com/Roejie.Hangca.Damaso</a></p>
+                    <p><a href="https://www.facebook.com/Roejie.Hangca.Damaso" target="_blank" rel="noopener noreferrer">Visit my Facebook profile</a></p>
                 </div>
 
             </div>
@@ -84,6 +86,8 @@
 
             <form id="contact-form">
 
+                <p class="form-note">Submitting opens your email app with a prepared message. You can review it before sending.</p>
+
                 <div class="form-group">
 
                     <label for="contact-name">Name</label>
@@ -91,10 +95,12 @@
                     <input
                         type="text"
                         id="contact-name"
+                        name="name"
                         placeholder="Enter your name"
+                        autocomplete="name"
+                        maxlength="150"
+                        required
                     >
-
-                    <small id="name-error"></small>
 
                 </div>
 
@@ -106,13 +112,28 @@
                     <input
                         type="email"
                         id="contact-email"
+                        name="email"
                         placeholder="Enter your email"
+                        autocomplete="email"
+                        maxlength="254"
+                        required
                     >
-
-                    <small id="email-error"></small>
 
                 </div>
 
+                <div class="form-group">
+
+                    <label for="contact-subject">Subject <span class="optional-label">(optional)</span></label>
+
+                    <input
+                        type="text"
+                        id="contact-subject"
+                        name="subject"
+                        placeholder="What would you like to discuss?"
+                        maxlength="200"
+                    >
+
+                </div>
 
                 <div class="form-group">
 
@@ -120,20 +141,20 @@
 
                     <textarea
                         id="contact-message"
+                        name="message"
                         rows="6"
                         placeholder="Write your message"
+                        maxlength="5000"
+                        required
                     ></textarea>
-
-                    <small id="message-error"></small>
 
                 </div>
 
-
                 <button type="submit" class="main-btn">
-                    Send Message
+                    Prepare Email
                 </button>
 
-                <p id="form-success"></p>
+                <p id="form-success" role="status" aria-live="polite"></p>
 
             </form>
 
@@ -144,7 +165,7 @@
 
     <!-- ============================== SCROLL TO TOP ============================== -->
 
-    <button id="scroll-top">↑</button>
+    <button id="scroll-top" type="button" aria-label="Back to top">↑</button>
 
 
     <script src="script.js"></script>

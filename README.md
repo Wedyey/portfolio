@@ -22,3 +22,7 @@ This repository contains the existing responsive portfolio website and its MySQL
 For local XAMPP development, these variables can be set in the Apache configuration with `SetEnv` directives. Keep real credentials out of this repository, and use a non-empty, least-privilege database password outside local development.
 
 The connection uses UTF-8, exception-based error reporting, associative fetches, and native prepared statements. Connection details are read from the server environment and are not stored in source code.
+
+## Shared security helpers
+
+Include `includes/security.php` before sending page output. It provides `portfolioEscape()` for HTML output, `portfolioCsrfToken()` and `portfolioVerifyCsrfToken()` for form tokens, and session helpers that set secure cookie options and rotate the session ID after login.

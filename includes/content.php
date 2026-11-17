@@ -36,3 +36,35 @@ function portfolioLoadExperience(PDO $database): array
 
     return $experience;
 }
+
+function portfolioValidateProfile(array $input): array
+{
+    $values = [];
+    $errors = [];
+    $limits = [
+        'name' => 150,
+        'headline' => 200,
+        'introduction' => 5000,
+        'biography' => 5000,
+        'email' => 254,
+        'phone' => 50,
+        'location' => 150,
+    ];
+
+    foreach ($limits as $field => $limit) {
+        $value = $input[$field] ?? '';
+        $values[$field] = is_string($value) ? trim($value) : '';
+
+        if (in_array($field, ['name', 'introduction', 'biography'], true) && $values[$field] === '') {
+            $errors[$field] = 'This field is required.';
+        } elseif (mb_strlen($values[$field]) > $limit) {
+            $errors[$field] = 'This field is too long.';
+        }
+    }
+
+    if ($values['email'] !== '' && !filter_var($values['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Enter a valid email address.';
+    }
+
+    return ['values' => $values, 'errors' => $errors];
+}

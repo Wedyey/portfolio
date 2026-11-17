@@ -2,6 +2,20 @@
 
 declare(strict_types=1);
 
+function portfolioSaveContactMessage(PDO $database, array $input): void
+{
+    $result = portfolioValidateContactMessage($input);
+
+    if ($result['errors']) {
+        throw new InvalidArgumentException('Contact message input is invalid.');
+    }
+
+    $statement = $database->prepare(
+        'INSERT INTO messages (name, email, subject, message) VALUES (:name, :email, :subject, :message)'
+    );
+    $statement->execute($result['values']);
+}
+
 function portfolioValidateContactMessage(array $input): array
 {
     $values = [];

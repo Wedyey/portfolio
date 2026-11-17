@@ -227,6 +227,60 @@ if(dynamicProjects){
 
 }
 
+const dynamicSkills = document.querySelector(".skills-container[data-dynamic-skills]");
+
+if(dynamicSkills){
+
+    const loadStatus = document.createElement("p");
+    loadStatus.setAttribute("role", "status");
+    loadStatus.textContent = "Loading skills...";
+    dynamicSkills.prepend(loadStatus);
+
+    fetch("api/content.php?type=skills")
+        .then(function(response){
+            if(!response.ok){
+                throw new Error("Skill request failed with status " + response.status);
+            }
+            return response.json();
+        })
+        .then(function(skills){
+            if(!Array.isArray(skills)){
+                throw new Error("Skill response was not a list.");
+            }
+
+            loadStatus.remove();
+            dynamicSkills.querySelectorAll(".skill-card").forEach(function(card){
+                card.remove();
+            });
+
+            if(skills.length === 0){
+                const emptyMessage = document.createElement("p");
+                emptyMessage.textContent = "No skills have been added yet.";
+                dynamicSkills.append(emptyMessage);
+                return;
+            }
+
+            skills.forEach(function(skill){
+                const card = document.createElement("article");
+                const heading = document.createElement("h2");
+                const detail = document.createElement("p");
+                const category = String(skill.category || "").trim();
+                const proficiency = skill.proficiency === null ? "" : String(skill.proficiency) + "%";
+
+                card.className = "skill-card";
+                heading.textContent = String(skill.name || "");
+                detail.textContent = [category, proficiency].filter(Boolean).join(" · ") || "Skill";
+                card.append(heading, detail);
+                dynamicSkills.append(card);
+            });
+        })
+        .catch(function(error){
+            console.error(error);
+            loadStatus.textContent = "Live skills are unavailable. Showing the saved preview.";
+        });
+
+}
+
 
 // ============================== CONTACT FORM ==============================
 

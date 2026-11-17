@@ -68,3 +68,22 @@ function portfolioValidateProfile(array $input): array
 
     return ['values' => $values, 'errors' => $errors];
 }
+
+function portfolioSaveProfile(PDO $database, array $input): void
+{
+    $result = portfolioValidateProfile($input);
+
+    if ($result['errors']) {
+        throw new InvalidArgumentException('Profile input is invalid.');
+    }
+
+    $profileExists = $database->query('SELECT id FROM profile WHERE id = 1')->fetchColumn() !== false;
+    $fields = 'name = :name, headline = :headline, introduction = :introduction, biography = :biography, '
+        . 'email = :email, phone = :phone, location = :location';
+    $query = $profileExists
+        ? 'UPDATE profile SET ' . $fields . ' WHERE id = 1'
+        : 'INSERT INTO profile (name, headline, introduction, biography, email, phone, location, id) '
+            . 'VALUES (:name, :headline, :introduction, :biography, :email, :phone, :location, 1)';
+    $statement = $database->prepare($query);
+    $statement->execute($result['values']);
+}

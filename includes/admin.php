@@ -71,6 +71,16 @@ function portfolioClearAdminLoginFailures(): void
     unset($_SESSION['admin_login_attempts'], $_SESSION['admin_login_blocked_until']);
 }
 
+function portfolioDashboardStats(PDO $database): array
+{
+    return [
+        'projects' => (int) $database->query('SELECT COUNT(*) FROM projects')->fetchColumn(),
+        'skills' => (int) $database->query('SELECT COUNT(*) FROM skills')->fetchColumn(),
+        'messages' => (int) $database->query('SELECT COUNT(*) FROM messages')->fetchColumn(),
+        'experience' => (int) $database->query('SELECT COUNT(*) FROM experience')->fetchColumn(),
+    ];
+}
+
 function portfolioAdminIsLoggedIn(): bool
 {
     portfolioStartSession();

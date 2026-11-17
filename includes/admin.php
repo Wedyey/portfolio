@@ -20,3 +20,22 @@ function portfolioAdminLogin(PDO $database, string $email, string $password): bo
 
     return true;
 }
+
+function portfolioAdminIsLoggedIn(): bool
+{
+    portfolioStartSession();
+
+    return filter_var(
+        $_SESSION['admin_id'] ?? null,
+        FILTER_VALIDATE_INT,
+        ['options' => ['min_range' => 1]]
+    ) !== false;
+}
+
+function portfolioRequireAdmin(): void
+{
+    if (!portfolioAdminIsLoggedIn()) {
+        header('Location: login.php', true, 303);
+        exit;
+    }
+}

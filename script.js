@@ -114,13 +114,23 @@ navLinks.forEach(function(link){
 // ============================== PROJECT FILTER ==============================
 
 const filterButtons = document.querySelectorAll(".filter-btn");
-const projectCards = document.querySelectorAll(".project-card");
+
+function applyProjectFilter(){
+
+    const activeButton = document.querySelector(".filter-btn.active-filter");
+    const filter = activeButton ? activeButton.dataset.filter : "all";
+
+    document.querySelectorAll(".project-card").forEach(function(project){
+
+        project.hidden = filter !== "all" && project.dataset.category !== filter;
+
+    });
+
+}
 
 filterButtons.forEach(function(button){
 
     button.addEventListener("click", function(){
-
-        const filter = button.dataset.filter;
 
         filterButtons.forEach(function(btn){
 
@@ -131,18 +141,91 @@ filterButtons.forEach(function(button){
 
         button.classList.add("active-filter");
         button.setAttribute("aria-pressed", "true");
-
-        projectCards.forEach(function(project){
-
-            const category = project.dataset.category;
-
-            project.hidden = filter !== "all" && category !== filter;
-
-        });
+        applyProjectFilter();
 
     });
 
 });
+
+function createProjectCard(project){
+
+    const card = document.createElement("article");
+    const category = String(project.category || "other").trim().toLowerCase();
+    const title = String(project.title || "");
+    const imagePath = String(project.image_path || "");
+    const content = document.createElement("div");
+    const heading = document.createElement("h2");
+    const description = document.createElement("p");
+    const technologies = document.createElement("p");
+    const technologyLabel = document.createElement("strong");
+
+    card.className = "project-card";
+    card.dataset.category = ["web", "java", "other"].includes(category) ? category : "other";
+    content.className = "project-content";
+    heading.textContent = title;
+    description.textContent = String(project.description || "");
+    technologies.className = "technologies";
+    technologyLabel.textContent = "Technologies: ";
+    technologies.append(technologyLabel, document.createTextNode(String(project.technologies || "")));
+
+    if (/^(img|uploads)\/[A-Za-z0-9._/-]+$/.test(imagePath) && !imagePath.split("/").includes("..")){
+        const image = document.createElement("img");
+        image.src = imagePath;
+        image.alt = title;
+        card.append(image);
+    }
+
+    content.append(heading, description, technologies);
+    card.append(content);
+
+    return card;
+
+}
+
+const dynamicProjects = document.querySelector(".projects-container[data-dynamic-projects]");
+
+if(dynamicProjects){
+
+    const loadStatus = document.createElement("p");
+    loadStatus.setAttribute("role", "status");
+    loadStatus.textContent = "Loading projects...";
+    dynamicProjects.prepend(loadStatus);
+
+    fetch("api/content.php?type=projects")
+        .then(function(response){
+            if(!response.ok){
+                throw new Error("Project request failed with status " + response.status);
+            }
+            return response.json();
+        })
+        .then(function(projects){
+            if(!Array.isArray(projects)){
+                throw new Error("Project response was not a list.");
+            }
+
+            loadStatus.remove();
+            dynamicProjects.querySelectorAll(".project-card").forEach(function(card){
+                card.remove();
+            });
+
+            if(projects.length === 0){
+                const emptyMessage = document.createElement("p");
+                emptyMessage.textContent = "No projects have been added yet.";
+                dynamicProjects.append(emptyMessage);
+                return;
+            }
+
+            projects.forEach(function(project){
+                dynamicProjects.append(createProjectCard(project));
+            });
+            applyProjectFilter();
+        })
+        .catch(function(error){
+            console.error(error);
+            loadStatus.textContent = "Live projects are unavailable. Showing the saved preview.";
+        });
+
+}
 
 
 // ============================== CONTACT FORM ==============================

@@ -37,6 +37,40 @@ function portfolioCreateFirstAdmin(PDO $database, string $email, string $passwor
     $statement->execute(['email' => $email, 'password_hash' => password_hash($password, PASSWORD_DEFAULT)]);
 }
 
+function portfolioAdminLoginBlocked(): bool
+{
+    portfolioStartSession();
+    $blockedUntil = $_SESSION['admin_login_blocked_until'] ?? null;
+
+    if (!is_int($blockedUntil)) {
+        return false;
+    }
+
+    if ($blockedUntil > time()) {
+        return true;
+    }
+
+    unset($_SESSION['admin_login_blocked_until'], $_SESSION['admin_login_attempts']);
+
+    return false;
+}
+
+function portfolioRecordAdminLoginFailure(): void
+{
+    portfolioStartSession();
+    $_SESSION['admin_login_attempts'] = (int) ($_SESSION['admin_login_attempts'] ?? 0) + 1;
+
+    if ($_SESSION['admin_login_attempts'] >= 5) {
+        $_SESSION['admin_login_blocked_until'] = time() + 900;
+    }
+}
+
+function portfolioClearAdminLoginFailures(): void
+{
+    portfolioStartSession();
+    unset($_SESSION['admin_login_attempts'], $_SESSION['admin_login_blocked_until']);
+}
+
 function portfolioAdminIsLoggedIn(): bool
 {
     portfolioStartSession();

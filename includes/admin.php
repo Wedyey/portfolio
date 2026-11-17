@@ -39,3 +39,21 @@ function portfolioRequireAdmin(): void
         exit;
     }
 }
+
+function portfolioAdminLogout(): void
+{
+    portfolioStartSession();
+    $_SESSION = [];
+    $cookie = session_get_cookie_params();
+
+    if (!setcookie(session_name(), '', [
+        'expires' => time() - 42000,
+        'path' => $cookie['path'],
+        'domain' => $cookie['domain'],
+        'secure' => $cookie['secure'],
+        'httponly' => $cookie['httponly'],
+        'samesite' => $cookie['samesite'],
+    ]) || !session_destroy()) {
+        throw new RuntimeException('Unable to complete administrator logout.');
+    }
+}

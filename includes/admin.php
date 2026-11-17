@@ -21,6 +21,22 @@ function portfolioAdminLogin(PDO $database, string $email, string $password): bo
     return true;
 }
 
+function portfolioCreateFirstAdmin(PDO $database, string $email, string $password): void
+{
+    $email = strtolower(trim($email));
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($password) < 12) {
+        throw new InvalidArgumentException('Enter a valid email and a password of at least 12 characters.');
+    }
+
+    if ((int) $database->query('SELECT COUNT(*) FROM admins')->fetchColumn() > 0) {
+        throw new RuntimeException('An administrator account already exists.');
+    }
+
+    $statement = $database->prepare('INSERT INTO admins (email, password_hash) VALUES (:email, :password_hash)');
+    $statement->execute(['email' => $email, 'password_hash' => password_hash($password, PASSWORD_DEFAULT)]);
+}
+
 function portfolioAdminIsLoggedIn(): bool
 {
     portfolioStartSession();

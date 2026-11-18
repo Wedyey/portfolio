@@ -258,6 +258,109 @@
     font-weight: 600;
 }
 
+.admin-page button:not(.menu-btn) {
+    transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+}
+
+.admin-page button:not(.menu-btn):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.admin-page button:not(.menu-btn):focus-visible {
+    outline: 3px solid #facc15;
+    outline-offset: 3px;
+}
+
+.admin-page button.button-secondary {
+    border-color: rgba(148, 193, 220, 0.3);
+    background: #19364d;
+    color: #e8f3fb;
+}
+
+.admin-page button.button-danger {
+    border-color: rgba(252, 165, 165, 0.42);
+    background: #7f1d1d;
+    color: #fff1f2;
+}
+
+.message-list {
+    display: grid;
+    gap: 16px;
+}
+
+.admin-page .message-card,
+.admin-page .message-empty {
+    padding: clamp(18px, 3vw, 26px);
+    border: 1px solid rgba(148, 193, 220, 0.18);
+    border-radius: 16px;
+    background: rgba(13, 34, 52, 0.86);
+}
+
+.admin-page .message-card-unread {
+    border-color: rgba(56, 189, 248, 0.48);
+    box-shadow: inset 3px 0 #38bdf8;
+}
+
+.message-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.message-card-header h2,
+.message-empty h2 {
+    color: #f4faff;
+    font-size: 1.15rem;
+}
+
+.message-sender,
+.message-date,
+.message-empty p {
+    margin-top: 5px;
+    color: #a9bdcc;
+    overflow-wrap: anywhere;
+}
+
+.message-badge {
+    padding: 4px 10px;
+    border: 1px solid rgba(148, 193, 220, 0.22);
+    border-radius: 999px;
+    color: #c4d6e2;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.message-badge-unread {
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(14, 116, 144, 0.24);
+    color: #bae6fd;
+}
+
+.message-body {
+    margin: 18px 0;
+    color: #e0edf5;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+
+.message-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.message-actions form {
+    margin: 0;
+}
+
+.admin-page .message-empty {
+    padding: 36px 22px;
+    text-align: center;
+}
+
 @media (max-width: 760px) {
     .admin-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));

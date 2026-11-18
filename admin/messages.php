@@ -66,28 +66,42 @@ $messages = portfolioLoadMessages($database);
     <?php if ($message !== ''): ?>
         <p role="status"><?= portfolioEscape($message) ?></p>
     <?php endif; ?>
-    <?php foreach ($messages as $item): ?>
-        <article class="skill-card">
-            <h2><?= portfolioEscape((string) $item['subject']) ?></h2>
-            <p><strong>From:</strong> <?= portfolioEscape((string) $item['name']) ?> (<?= portfolioEscape((string) $item['email']) ?>)</p>
-            <p><?= nl2br(portfolioEscape((string) $item['message'])) ?></p>
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
-                <input type="hidden" name="id" value="<?= (int) $item['id'] ?>">
-                <input type="hidden" name="action" value="<?= (int) $item['is_read'] === 1 ? 'unread' : 'read' ?>">
-                <button type="submit"><?= (int) $item['is_read'] === 1 ? 'Mark unread' : 'Mark read' ?></button>
-            </form>
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
-                <input type="hidden" name="id" value="<?= (int) $item['id'] ?>">
-                <input type="hidden" name="action" value="delete">
-                <button type="submit">Delete</button>
-            </form>
-        </article>
-    <?php endforeach; ?>
-    <?php if ($messages === []): ?>
-        <p>No contact messages yet.</p>
-    <?php endif; ?>
+    <section class="message-list" aria-label="Received messages">
+        <?php foreach ($messages as $item): ?>
+            <?php $isRead = (int) $item['is_read'] === 1; ?>
+            <article class="message-card<?= $isRead ? '' : ' message-card-unread' ?>">
+                <header class="message-card-header">
+                    <div>
+                        <h2><?= portfolioEscape((string) ($item['subject'] ?: 'No subject')) ?></h2>
+                        <p class="message-sender"><?= portfolioEscape((string) $item['name']) ?> · <?= portfolioEscape((string) $item['email']) ?></p>
+                    </div>
+                    <span class="message-badge<?= $isRead ? '' : ' message-badge-unread' ?>"><?= $isRead ? 'Read' : 'New' ?></span>
+                </header>
+                <p class="message-date"><?= portfolioEscape(date('M j, Y · g:i a', strtotime((string) $item['created_at']))) ?></p>
+                <p class="message-body"><?= nl2br(portfolioEscape((string) $item['message'])) ?></p>
+                <div class="message-actions">
+                    <form method="post">
+                        <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
+                        <input type="hidden" name="id" value="<?= (int) $item['id'] ?>">
+                        <input type="hidden" name="action" value="<?= $isRead ? 'unread' : 'read' ?>">
+                        <button class="button-secondary" type="submit"><?= $isRead ? 'Mark unread' : 'Mark read' ?></button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
+                        <input type="hidden" name="id" value="<?= (int) $item['id'] ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <button class="button-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+            </article>
+        <?php endforeach; ?>
+        <?php if ($messages === []): ?>
+            <div class="message-empty">
+                <h2>You're all caught up</h2>
+                <p>New messages from the contact form will appear here.</p>
+            </div>
+        <?php endif; ?>
+    </section>
 </main>
 </body>
 </html>

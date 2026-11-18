@@ -17,13 +17,14 @@ This repository contains the existing responsive portfolio website and its MySQL
    - `PORTFOLIO_DB_NAME`
    - `PORTFOLIO_DB_USER`
    - `PORTFOLIO_DB_PASSWORD`
-3. Include `includes/db.php` from a PHP page and call `portfolioDatabase()` to get the PDO connection.
+3. If the host does not support environment variables, copy `includes/db.local.example.php` to `includes/db.local.php`, fill in the database settings, and upload that private file directly to the server. It is excluded from Git and direct web access is blocked.
+4. Include `includes/db.php` from a PHP page and call `portfolioDatabase()` to get the PDO connection.
 
 The database seed includes the four existing portfolio projects and their images and descriptions. Re-running the SQL file adds missing starter projects without replacing existing project records.
 
-For local XAMPP development, these variables can be set in the Apache configuration with `SetEnv` directives. Keep real credentials out of this repository, and use a non-empty, least-privilege database password outside local development.
+For local XAMPP development, these variables can be set in the Apache configuration with `SetEnv` directives. On shared hosting, first select the database created by the host in phpMyAdmin; if its SQL importer rejects `CREATE DATABASE` or `USE portfolio`, remove those two statements from an import copy and run the rest against the selected database. Keep real credentials out of this repository, and use a non-empty, least-privilege database password outside local development.
 
-The connection uses UTF-8, exception-based error reporting, associative fetches, and native prepared statements. Connection details are read from the server environment and are not stored in source code.
+The connection uses UTF-8, exception-based error reporting, associative fetches, and native prepared statements. Database settings are read from the server environment first, then from the untracked `includes/db.local.php` file if needed.
 
 ## Shared security helpers
 

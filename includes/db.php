@@ -10,23 +10,54 @@ function portfolioDatabase(): PDO
         return $connection;
     }
 
+    $localConfig = [];
+    $localConfigPath = __DIR__ . '/db.local.php';
+
+    if (is_file($localConfigPath)) {
+        $loadedConfig = require $localConfigPath;
+
+        if (!is_array($loadedConfig)) {
+            throw new RuntimeException('Local database configuration must return an array.');
+        }
+
+        $localConfig = $loadedConfig;
+    }
+
     $host = getenv('PORTFOLIO_DB_HOST');
     $database = getenv('PORTFOLIO_DB_NAME');
     $username = getenv('PORTFOLIO_DB_USER');
     $password = getenv('PORTFOLIO_DB_PASSWORD');
     $port = getenv('PORTFOLIO_DB_PORT');
 
-    if ($host === false || $host === '' || $database === false || $database === ''
-        || $username === false || $username === '' || $password === false) {
+    if ($host === false || $host === '') {
+        $host = $localConfig['host'] ?? $host;
+    }
+    if ($database === false || $database === '') {
+        $database = $localConfig['database'] ?? $database;
+    }
+    if ($username === false || $username === '') {
+        $username = $localConfig['username'] ?? $username;
+    }
+    if ($password === false) {
+        $password = $localConfig['password'] ?? $password;
+    }
+    if ($port === false || $port === '') {
+        $port = $localConfig['port'] ?? '3306';
+    }
+
+    if (!is_string($host) || $host === ''
+        || !is_string($database) || $database === ''
+        || !is_string($username) || $username === ''
+        || !is_string($password)) {
         throw new RuntimeException('Portfolio database configuration is incomplete.');
     }
 
-    if ($port === false || $port === '') {
-        $port = '3306';
+    if (!is_string($port) && !is_int($port)) {
+        throw new RuntimeException('Portfolio database port must be between 1 and 65535.');
     }
 
     $validatedPort = filter_var(
-        $port,
+        (string) $port,
         FILTER_VALIDATE_INT,
         ['options' => ['min_range' => 1, 'max_range' => 65535]]
     );

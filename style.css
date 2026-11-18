@@ -823,6 +823,32 @@ textarea:focus-visible{
     border-bottom-color: var(--color-accent);
 }
 
+.navbar li.admin-shortcut{
+    border-bottom: 0;
+}
+
+.navbar .admin-shortcut a{
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    border: 1px solid rgba(56, 189, 248, 0.58);
+    border-radius: 10px;
+    background: rgba(14, 116, 144, 0.2);
+    color: #bae6fd;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.navbar .admin-shortcut a:hover{
+    transform: translateY(-1px);
+    border-color: #7dd3fc;
+    background: rgba(14, 116, 144, 0.4);
+    color: #f0f9ff;
+}
+
 #theme-mode{
     width: 42px;
     height: 42px;

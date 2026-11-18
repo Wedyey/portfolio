@@ -361,6 +361,19 @@ const contactForm = document.getElementById("contact-form");
 
 if(contactForm){
 
+    const csrfInput = contactForm.querySelector("[name='csrf_token']");
+
+    if(csrfInput){
+        fetch("api/csrf.php")
+            .then(function(response){ return response.json(); })
+            .then(function(data){
+                if(typeof data.token === "string"){
+                    csrfInput.value = data.token;
+                }
+            })
+            .catch(function(error){ console.error(error); });
+    }
+
     contactForm.addEventListener("submit", function(event){
 
         event.preventDefault();
@@ -374,12 +387,32 @@ if(contactForm){
 
         formSuccess.textContent = "";
 
-        const mailSubject = subject || `Portfolio message from ${name}`;
-        const mailBody = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-        const mailto = `mailto:roejieadamso@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+        const data = new URLSearchParams();
+        data.set("name", name);
+        data.set("email", email);
+        data.set("subject", subject);
+        data.set("message", message);
 
-        window.location.href = mailto;
-        formSuccess.textContent = "Your email app should open with your message. Review it there, then send it.";
+        if(csrfInput){
+            data.set("csrf_token", csrfInput.value);
+        }
+
+        fetch("api/contact.php", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: data.toString()
+        })
+            .then(async function(response){
+                const result = await response.json();
+                if(!response.ok){
+                    throw new Error(result.error || "Message could not be sent.");
+                }
+                contactForm.reset();
+                formSuccess.textContent = result.success;
+            })
+            .catch(function(error){
+                formSuccess.textContent = error.message;
+            });
 
     });
 

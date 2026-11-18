@@ -281,6 +281,79 @@ if(dynamicSkills){
 
 }
 
+function formatResumeDates(startDate, endDate){
+
+    const startYear = startDate ? String(startDate).slice(0, 4) : "";
+    const endYear = endDate ? String(endDate).slice(0, 4) : (startYear ? "Present" : "");
+
+    return [startYear, endYear].filter(Boolean).join("–");
+
+}
+
+function createResumeItem(item, type){
+
+    const entry = document.createElement("div");
+    const heading = document.createElement("h3");
+    const detail = document.createElement("span");
+    const description = document.createElement("p");
+    const title = type === "education" ? item.qualification : item.role;
+    const organization = type === "education" ? item.institution : item.organization;
+    const field = type === "education" ? item.field_of_study : "";
+    const dateRange = formatResumeDates(item.start_date, item.end_date);
+
+    entry.className = "resume-item";
+    heading.textContent = String(title || "");
+    detail.textContent = [organization, field, dateRange].filter(Boolean).join(" · ");
+    description.textContent = String(item.description || "");
+    entry.append(heading, detail, description);
+
+    return entry;
+
+}
+
+document.querySelectorAll(".resume-section[data-dynamic-resume]").forEach(function(section){
+
+    const type = section.dataset.dynamicResume;
+    const loadStatus = document.createElement("p");
+    loadStatus.setAttribute("role", "status");
+    loadStatus.textContent = "Loading " + type + "...";
+    section.prepend(loadStatus);
+
+    fetch("api/content.php?type=" + encodeURIComponent(type))
+        .then(function(response){
+            if(!response.ok){
+                throw new Error("Resume request failed with status " + response.status);
+            }
+            return response.json();
+        })
+        .then(function(items){
+            if(!Array.isArray(items)){
+                throw new Error("Resume response was not a list.");
+            }
+
+            loadStatus.remove();
+            section.querySelectorAll(".resume-item").forEach(function(entry){
+                entry.remove();
+            });
+
+            if(items.length === 0){
+                const emptyMessage = document.createElement("p");
+                emptyMessage.textContent = "No " + type + " records have been added yet.";
+                section.append(emptyMessage);
+                return;
+            }
+
+            items.forEach(function(item){
+                section.append(createResumeItem(item, type));
+            });
+        })
+        .catch(function(error){
+            console.error(error);
+            loadStatus.textContent = "Live " + type + " records are unavailable. Showing the saved preview.";
+        });
+
+});
+
 
 // ============================== CONTACT FORM ==============================
 

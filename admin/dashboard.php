@@ -38,6 +38,14 @@ $adminEmail = (string) ($_SESSION['admin_email'] ?? '');
             <article class="skill-card"><h2>Messages</h2><p><?= $statistics['messages'] ?></p></article>
             <article class="skill-card"><h2>Experience</h2><p><?= $statistics['experience'] ?></p></article>
         </section>
+        <nav aria-label="Content management">
+            <p><a href="profile.php">Manage profile</a></p>
+            <p><a href="skills.php">Manage skills</a></p>
+            <p><a href="projects.php">Manage projects</a></p>
+            <p><a href="resume.php">Manage resume</a></p>
+            <p><a href="messages.php">Manage contact messages</a></p>
+            <p><a href="settings.php">Manage website settings</a></p>
+        </nav>
         <p><a href="../index.html">View public portfolio</a></p>
         <form method="post" action="logout.php">
             <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">

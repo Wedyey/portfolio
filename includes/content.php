@@ -37,6 +37,13 @@ function portfolioLoadExperience(PDO $database): array
     return $experience;
 }
 
+function portfolioLoadAchievements(PDO $database): array
+{
+    $achievements = $database->query('SELECT * FROM achievements ORDER BY sort_order, id')->fetchAll();
+
+    return $achievements;
+}
+
 function portfolioValidateProfile(array $input): array
 {
     $values = [];

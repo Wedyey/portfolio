@@ -26,3 +26,19 @@ The connection uses UTF-8, exception-based error reporting, associative fetches,
 ## Shared security helpers
 
 Include `includes/security.php` before sending page output. It provides `portfolioEscape()` for HTML output, `portfolioCsrfToken()` and `portfolioVerifyCsrfToken()` for form tokens, and session helpers that set secure cookie options and rotate the session ID after login.
+
+## Administrator setup
+
+1. Import `database/portfolio.sql` into MySQL.
+2. Start Apache and MySQL, and configure the `PORTFOLIO_DB_*` environment variables.
+3. Open `admin/setup.php` once to create the first administrator account.
+4. Open `admin/login.php` to sign in.
+5. Use `admin/dashboard.php`, profile, skills, projects, resume, messages, and settings pages to manage content.
+
+Do not put a real password or database password in source files or SQL commits. The setup page accepts a password of at least 12 characters and stores only a PHP password hash.
+
+## Public features
+
+The existing `.html` pages remain available. Projects, skills, education, experience, and achievements can be loaded from the database through `api/content.php`. The contact page stores visitor messages in MySQL after CSRF and server-side validation.
+
+Uploaded project images are limited to JPG, PNG, WebP, and GIF, with a 2 MB maximum, real-content validation, and unique filenames in `uploads/`.

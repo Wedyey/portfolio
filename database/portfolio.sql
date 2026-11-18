@@ -111,3 +111,61 @@ CREATE TABLE IF NOT EXISTS messages (
     PRIMARY KEY (id),
     KEY messages_read_created_index (is_read, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO profile (
+    id, name, headline, introduction, biography, email, phone, location, profile_image
+) VALUES (
+    1,
+    'Roejie Damaso',
+    'Information Technology student',
+    'A student building thoughtful digital experiences.',
+    'I am interested in technology, programming, creativity, and web development.',
+    'roejieadamso@gmail.com',
+    '',
+    'Philippines',
+    'img/pic.jpg'
+);
+
+INSERT IGNORE INTO skills (id, name, category, proficiency, sort_order) VALUES
+    (1, 'HTML', 'Web', 80, 1),
+    (2, 'CSS', 'Web', 80, 2),
+    (3, 'JavaScript', 'Web', 75, 3),
+    (4, 'PHP', 'Backend', 70, 4),
+    (5, 'MySQL', 'Database', 70, 5);
+
+INSERT IGNORE INTO projects (
+    id, title, description, technologies, category, image_path, sort_order
+) VALUES (
+    1,
+    'Arvins Rice & Corn Record Milling System',
+    'A Java and MySQL record management system for scheduling, milling status, payments, and transactions.',
+    'Java, MySQL, NetBeans',
+    'java',
+    'img/ricemill.png',
+    1
+);
+
+INSERT IGNORE INTO education (
+    id, institution, qualification, field_of_study, start_date, end_date, description, sort_order
+) VALUES (
+    1,
+    'Negros Oriental State University',
+    'Bachelor of Science in Information Technology',
+    'Information Technology',
+    '2023-08-01',
+    NULL,
+    'Currently studying BSIT with interests in programming, web development, and databases.',
+    1
+);
+
+INSERT IGNORE INTO experience (
+    id, organization, role, start_date, end_date, description, sort_order
+) VALUES (
+    1,
+    'Student Projects',
+    'Student Developer',
+    '2024-01-01',
+    NULL,
+    'Built school and personal projects involving web development, Java, PHP, MySQL, and digital design.',
+    1
+);

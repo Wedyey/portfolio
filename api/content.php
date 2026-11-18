@@ -15,6 +15,7 @@ $loaders = [
     'skills' => 'portfolioLoadSkills',
     'education' => 'portfolioLoadEducation',
     'experience' => 'portfolioLoadExperience',
+    'achievements' => 'portfolioLoadAchievements',
 ];
 $type = $_GET['type'] ?? null;
 

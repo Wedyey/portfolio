@@ -19,6 +19,8 @@ This repository contains the existing responsive portfolio website and its MySQL
    - `PORTFOLIO_DB_PASSWORD`
 3. Include `includes/db.php` from a PHP page and call `portfolioDatabase()` to get the PDO connection.
 
+The database seed includes the four existing portfolio projects and their images and descriptions. Re-running the SQL file adds missing starter projects without replacing existing project records.
+
 For local XAMPP development, these variables can be set in the Apache configuration with `SetEnv` directives. Keep real credentials out of this repository, and use a non-empty, least-privilege database password outside local development.
 
 The connection uses UTF-8, exception-based error reporting, associative fetches, and native prepared statements. Connection details are read from the server environment and are not stored in source code.

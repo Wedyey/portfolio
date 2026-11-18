@@ -54,13 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($message !== ''): ?>
         <p role="status"><?= portfolioEscape($message) ?></p>
     <?php endif; ?>
-    <form id="contact-form" method="post">
+    <form id="contact-form" class="admin-form-grid" method="post">
         <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
         <div class="form-group">
             <label for="site_title">Site title</label>
             <input id="site_title" name="site_title" maxlength="150" value="<?= portfolioEscape($settings['site_title'] ?? '') ?>">
         </div>
-        <div class="form-group">
+        <div class="form-group form-group-wide">
             <label for="site_description">Site description</label>
             <textarea id="site_description" name="site_description" maxlength="300"><?= portfolioEscape($settings['site_description'] ?? '') ?></textarea>
         </div>

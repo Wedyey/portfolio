@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Edit <span>Profile</span></h1>
             <p><a class="admin-back-link" href="dashboard.php">Back to dashboard</a></p>
         </section>
-        <form id="contact-form" method="post">
+        <form id="contact-form" class="admin-form-grid" method="post">
             <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
             <?php if ($message !== ''): ?>
                 <p role="status"><?= portfolioEscape($message) ?></p>
@@ -79,11 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input id="<?= portfolioEscape($field) ?>" type="<?= $field === 'email' ? 'email' : 'text' ?>" name="<?= portfolioEscape($field) ?>" value="<?= portfolioEscape((string) $profile[$field]) ?>" maxlength="<?= $details[1] ?>" <?= $field === 'name' ? 'required' : '' ?>>
                 </div>
             <?php endforeach; ?>
-            <div class="form-group">
+            <div class="form-group form-group-wide">
                 <label for="introduction">Introduction</label>
                 <textarea id="introduction" name="introduction" rows="4" maxlength="5000" required><?= portfolioEscape((string) $profile['introduction']) ?></textarea>
             </div>
-            <div class="form-group">
+            <div class="form-group form-group-wide">
                 <label for="biography">Biography</label>
                 <textarea id="biography" name="biography" rows="6" maxlength="5000" required><?= portfolioEscape((string) $profile['biography']) ?></textarea>
             </div>

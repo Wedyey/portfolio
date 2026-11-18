@@ -140,7 +140,7 @@ if ($editId !== false) {
         <section class="skills-container" aria-label="Project editor">
             <article class="skill-card">
                 <h2><?= $editing === null ? 'Add a project' : 'Edit project' ?></h2>
-                <form method="post" enctype="multipart/form-data">
+                <form class="admin-form-grid" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
                     <input type="hidden" name="action" value="save">
                     <?php if ($editing !== null): ?>
@@ -150,7 +150,7 @@ if ($editId !== false) {
                         <label for="title">Title</label>
                         <input id="title" type="text" name="title" maxlength="200" required value="<?= portfolioEscape((string) ($editing['title'] ?? '')) ?>">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-wide">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" rows="4" maxlength="5000" required><?= portfolioEscape((string) ($editing['description'] ?? '')) ?></textarea>
                     </div>
@@ -170,7 +170,7 @@ if ($editId !== false) {
                         <label for="source_url">Source URL (optional)</label>
                         <input id="source_url" type="url" name="source_url" value="<?= portfolioEscape((string) ($editing['source_url'] ?? '')) ?>">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-wide">
                         <label for="image">Image (JPG, PNG, WebP or GIF, max 2 MB)</label>
                         <input id="image" type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif">
                         <?php if (($editing['image_path'] ?? '') !== ''): ?>
@@ -182,10 +182,12 @@ if ($editId !== false) {
                         <label for="sort_order">Sort order</label>
                         <input id="sort_order" type="number" name="sort_order" min="0" max="10000" value="<?= portfolioEscape((string) ($editing['sort_order'] ?? '0')) ?>">
                     </div>
-                    <button class="main-btn" type="submit"><?= $editing === null ? 'Add project' : 'Save changes' ?></button>
-                    <?php if ($editing !== null): ?>
-                        <a href="projects.php">Cancel</a>
-                    <?php endif; ?>
+                    <div class="form-actions">
+                        <button class="main-btn" type="submit"><?= $editing === null ? 'Add project' : 'Save changes' ?></button>
+                        <?php if ($editing !== null): ?>
+                            <a href="projects.php">Cancel</a>
+                        <?php endif; ?>
+                    </div>
                 </form>
             </article>
         </section>
@@ -219,6 +221,7 @@ if ($editId !== false) {
                         </td>
                         <td><?= (int) $project['sort_order'] ?></td>
                         <td>
+                            <div class="admin-actions">
                             <a href="projects.php?edit=<?= (int) $project['id'] ?>">Edit</a>
                             <form method="post">
                                 <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">
@@ -226,6 +229,7 @@ if ($editId !== false) {
                                 <input type="hidden" name="id" value="<?= (int) $project['id'] ?>">
                                 <button type="submit">Delete</button>
                             </form>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

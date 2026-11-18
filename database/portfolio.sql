@@ -145,6 +145,42 @@ INSERT IGNORE INTO projects (
     1
 );
 
+INSERT INTO projects (title, description, technologies, category, image_path, sort_order)
+SELECT
+    'VYRO Zenith - Wireless Headphone Advertisement',
+    'A fictional wireless headphone advertisement created using Adobe Animate. The project presents the product through animated scenes, text, transitions, motion effects, background music, and sound effects. It was created as a school project to practice animation and multimedia design.',
+    'Adobe Animate',
+    'other',
+    'img/Vyro.png',
+    2
+WHERE NOT EXISTS (
+    SELECT 1 FROM projects WHERE title = 'VYRO Zenith - Wireless Headphone Advertisement'
+);
+
+INSERT INTO projects (title, description, technologies, category, image_path, sort_order)
+SELECT
+    'Poly art project',
+    'A low-poly digital artwork of an otter created using geometric shapes and different shades to form the animal''s appearance. This project helped me practice creativity, shape composition, and digital art techniques.',
+    'Adobe Illustrator',
+    'other',
+    'img/otter.png',
+    3
+WHERE NOT EXISTS (
+    SELECT 1 FROM projects WHERE title = 'Poly art project'
+);
+
+INSERT INTO projects (title, description, technologies, category, image_path, sort_order)
+SELECT
+    'Whack-a-Mole Game',
+    'A simple browser-based Whack-a-Mole game created to practice JavaScript programming and interactive web development. The game allows the player to click the mole as it appears in different positions while keeping track of the player''s score. This project helped me practice JavaScript events, functions, DOM manipulation, and basic game logic.',
+    'JavaScript, HTML, CSS',
+    'web',
+    'img/whack.png',
+    4
+WHERE NOT EXISTS (
+    SELECT 1 FROM projects WHERE title = 'Whack-a-Mole Game'
+);
+
 INSERT IGNORE INTO education (
     id, institution, qualification, field_of_study, start_date, end_date, description, sort_order
 ) VALUES (

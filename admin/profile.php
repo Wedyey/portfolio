@@ -60,12 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit portfolio profile</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
-<body>
+<body class="admin-page">
     <main class="page-main">
         <section class="page-header">
             <h1>Edit <span>Profile</span></h1>
-            <p><a href="dashboard.php">Back to dashboard</a></p>
+            <p><a class="admin-back-link" href="dashboard.php">Back to dashboard</a></p>
         </section>
         <form id="contact-form" method="post">
             <input type="hidden" name="csrf_token" value="<?= portfolioEscape(portfolioCsrfToken()) ?>">

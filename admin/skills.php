@@ -89,13 +89,14 @@ if ($editId !== false) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Manage skills</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 
-<body>
+<body class="admin-page">
     <main class="page-main">
         <section class="page-header">
             <h1>Manage <span>Skills</span></h1>
-            <p><a href="dashboard.php">Back to dashboard</a></p>
+            <p><a class="admin-back-link" href="dashboard.php">Back to dashboard</a></p>
         </section>
         <?php if ($message !== ''): ?>
             <p role="status"><?= portfolioEscape($message) ?></p>

@@ -51,9 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Set up administrator</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
-<body>
-    <main>
+<body class="admin-page">
+    <main class="admin-shell">
         <h1>Set up administrator</h1>
         <p>Create the first account to access portfolio management.</p>
         <?php if ($errorMessage !== ''): ?>

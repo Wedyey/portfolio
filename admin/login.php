@@ -57,8 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $adminExists) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Administrator login</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
-<body>
+<body class="admin-page">
     <main class="page-main">
         <section class="page-header">
             <h1>Administrator <span>Login</span></h1>
